@@ -63,9 +63,9 @@ async function addNewStoriesOnPage(evt) {
   console.debug("addNewStoriesOnPage");
   evt.preventDefault();
 
-  const title = $("#title").val();
-  const author = $("#author").val();
-  const url = $("#url").val();
+  const title = $("#create-title").val();
+  const author = $("#create-author").val();
+  const url = $("#create-url").val();
   const username = currentUser.username;
   const storyData = { title, author, url, username };
 
