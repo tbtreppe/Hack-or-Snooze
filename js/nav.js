@@ -37,6 +37,7 @@ function updateNavOnLogin() {
 function navAddStoryClick(evt) {
   console.debug("navAddStoryClick", evt);
   hidePageComponents();
+  $allStoriesList.show();
   $addStoryForm.show();
 }
 $navAddStory.on("click", navAddStoryClick);
@@ -46,4 +47,4 @@ function navFavoritesClick(evt) {
   hidePageComponents();
   addFavoritesListOnPage();
 }
-$body.on("click", navFavoritesClick);
+$body.on("click", "#nav-favorites", navFavoritesClick);
