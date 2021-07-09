@@ -84,6 +84,17 @@ class StoryList {
     user.ownStories.unshift(story);
     return story;
   }
+
+  async removeStory(user, storyId) {
+    const token = user.loginToken;
+    await axios({
+      method: "DELETE",
+      url: `${BASE_URL}/stories/${storyId}`,
+      data: { token: user.loginToken },
+    });
+    this.stories = this.stories.filter((story) => story.storyId !== storyId);
+    user.favorites = user.favorites.filter((S) => s.storyId !== storyId);
+  }
 }
 
 /******************************************************************************

@@ -19,14 +19,16 @@ async function getAndShowStoriesOnStart() {
  * Returns the markup for the story.
  */
 
-function generateStoryMarkup(story) {
+function generateStoryMarkup(story, showTrashBtn = false) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
-  const showStar = Boolean(currentUser);
+  const showHeart = Boolean(currentUser);
+
   return $(`
       <li id="${story.storyId}">
-      ${showStar ? getStarHTML(story, currentUser) : ""}
+      ${showHeart ? getHeartHTML(story, currentUser) : ""}
+      ${showTrashBtn ? getTrashBtnHTML() : ""}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -36,11 +38,17 @@ function generateStoryMarkup(story) {
       </li>
     `);
 }
-function getStarHTML(story, user) {
+function getHeartHTML(story, user) {
   const isFavorite = user.isFavorite(story);
-  const starType = isFavorite ? "fas" : "far";
-  return `<span class="star">
-  <i class="${starType} fa-star"></i>
+  const heartType = isFavorite ? "fas" : "far";
+  return `<span class="heart">
+  <i class="${heartType} fa-heart"></i>
+  </span>`;
+}
+
+function getTrashBtnHTML() {
+  return `<span class="trash-can">
+  <i class="fas fa-trash-alt"></i>
   </span>`;
 }
 /** Gets list of stories from server, generates their HTML, and puts on page. */
@@ -57,6 +65,15 @@ function putStoriesOnPage() {
   }
 
   $allStoriesList.show();
+}
+async function deleteStory(evt) {
+  console.debug("deleteStory");
+
+  const $closestLi = $(evt.target).closest("li");
+  const storyId = $closestLi.attr("id");
+
+  await storyList.removeStory(currentUser, storyId);
+  $allStoriesList.on("click", ".trash-can", deleteStory);
 }
 
 async function addNewStoriesOnPage(evt) {
@@ -99,7 +116,7 @@ async function toggleFavorite(evt) {
   const $tgt = $(evt.target);
   const $closestLi = $tgt.closest("li");
   const storyId = $closestLi.attr("id");
-  const story = storyList.stories.find((s) => s.storyId === StoryId);
+  const story = storyList.stories.find((s) => s.storyId === storyId);
 
   if ($tgt.hasClass("fas")) {
     await currentUser.removeFavorite(story);
@@ -109,4 +126,4 @@ async function toggleFavorite(evt) {
     $tgt.closest("i").toggleClass("fas far");
   }
 }
-$allStoriesList.on("click", ".star", toggleFavorite);
+$allStoriesList.on("click", ".heart", toggleFavorite);

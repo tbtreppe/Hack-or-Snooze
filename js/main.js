@@ -25,13 +25,7 @@ const $favoriteStoriesList = $("#favorite-stories-list");
  */
 
 function hidePageComponents() {
-  const components = [
-    $allStoriesList,
-    $loginForm,
-    $signupForm,
-    $addStoryForm,
-    $navFavorites,
-  ];
+  const components = [$allStoriesList, $loginForm, $signupForm, $addStoryForm];
   components.forEach((c) => c.hide());
 }
 
