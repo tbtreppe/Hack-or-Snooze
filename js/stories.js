@@ -27,7 +27,7 @@ function generateStoryMarkup(story, showTrashBtn = false) {
 
   return $(`
       <li id="${story.storyId}">
-      ${showHeart ? getHeartHTML(story, currentUser) : ""}
+      ${showHeart ? getHeartHTML(story, currentUser) : ""} 
       ${showTrashBtn ? getTrashBtnHTML() : ""}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -51,6 +51,7 @@ function getTrashBtnHTML() {
   <i class="fas fa-trash-alt"></i>
   </span>`;
 }
+
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
 function putStoriesOnPage() {
@@ -60,7 +61,7 @@ function putStoriesOnPage() {
 
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
-    const $story = generateStoryMarkup(story);
+    const $story = generateStoryMarkup(story, true);
     $allStoriesList.append($story);
   }
 
@@ -88,7 +89,7 @@ async function addNewStoriesOnPage(evt) {
 
   const story = await storyList.addStory(currentUser, storyData);
 
-  const $story = generateStoryMarkup(story);
+  const $story = generateStoryMarkup(story, true);
   $allStoriesList.prepend($story);
 
   $addStoryForm.hide();
