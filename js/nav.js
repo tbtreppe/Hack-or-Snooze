@@ -37,7 +37,7 @@ function updateNavOnLogin() {
 function navAddStoryClick(evt) {
   console.debug("navAddStoryClick", evt);
   hidePageComponents();
-  $allStoriesList.show();
+
   $addStoryForm.show();
 }
 $navAddStory.on("click", navAddStoryClick);
