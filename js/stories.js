@@ -69,13 +69,16 @@ function putStoriesOnPage() {
 }
 async function deleteStory(evt) {
   console.debug("deleteStory");
+  evt.preventDefault();
 
   const $closestLi = $(evt.target).closest("li");
   const storyId = $closestLi.attr("id");
 
   await storyList.removeStory(currentUser, storyId);
+  putStoriesOnPage();
 }
 $allStoriesList.on("click", ".trash-can", deleteStory);
+//location.reload();
 
 async function addNewStoriesOnPage(evt) {
   console.debug("addNewStoriesOnPage");
@@ -91,6 +94,7 @@ async function addNewStoriesOnPage(evt) {
 
   const $story = generateStoryMarkup(story, true);
   $allStoriesList.prepend($story);
+  putStoriesOnPage();
 
   $addStoryForm.hide();
   $addStoryForm.trigger("reset");
